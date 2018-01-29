@@ -1,0 +1,22 @@
+﻿<a href="#/addMorceau" class="btn btn-primary btn-xs">Ajouter un morceau</a>
+<br /><br />
+<div class="table-responsive">
+    <table id="mytable" class="table table-bordred table-striped">
+        <thead>
+        <th>Titre du morceau</th>
+        <th>Tonalit&eacute;</th>
+        <th>Grille</th>
+        <th>Modifier</th>
+        <th>Supprimer</th>
+        </thead>
+        <tbody>
+            <tr ng-repeat="morceau in ListMorceaux">
+                <td>{{morceau.Titre}}</td>
+                <td>{{morceau.Tonalite}}</td>
+                <td>{{morceau.Grille}}</td>
+                <td><a class="btn btn-primary btn-xs" href="#/UpdateMorceau/{{morceau.MorceauId}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+                <td><a class="btn btn-danger btn-xs" href="#/DeleteMorceau/{{morceau.MorceauId}}"><span class="glyphicon glyphicon-trash"></span></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

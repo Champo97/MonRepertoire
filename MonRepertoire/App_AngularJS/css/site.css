@@ -1,0 +1,91 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* Set padding to display errors that occur during databinding */
+.padding-error {
+    padding-top: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+    .nofloat {
+        float: none;
+        padding: 10px 15px;
+    }
+}
+
+body {
+    font-size: 12px;
+    font-family: Arial;
+}
+
+header {
+    padding: 1px 0;
+    background: #000000;
+    color:#D8D8D8;
+    text-align: center;
+    font-weight: bold;
+}
+
+nav {
+    font-size: 0.8em;
+    list-style: none;
+    text-align: center;
+}
+
+section {
+    padding: 10px;
+    margin-bottom: 20px;
+    background: #D8D8D8;
+}
+
+nav li {
+    display: inline;
+    padding: 1px;
+}
+
+
+.separateur {
+    height: 1px;
+    background: #717171;
+    border-bottom: 1px solid #313030;
+}
+
+footer {
+    font-weight: bold;
+    background: #a9c6cb;
+    text-align: center;
+    padding: 10px;
+}
+
+div.bienvenue {
+    font-size: 1.5em;
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+article {
+    padding: 0 10px;
+    padding-bottom: 25px;
+}

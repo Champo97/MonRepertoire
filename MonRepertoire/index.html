@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="fr" ng-app="MonRepertoire">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <title>Mon R&eacute;pertoire</title>
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="App_AngularJS/css/site.css" rel="stylesheet" />
+
+    <script src="/Scripts/modernizr-2.6.2.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <script src="scripts/jquery-3.0.0.slim.js"></script>
+    <script src="scripts/popper.js"></script>
+    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/jquery-3.0.0.js"></script>
+    <script src="scripts/modernizr-2.6.2.js"></script>
+    <script src="scripts/respond.js"></script>
+    <script src="App_AngularJS/app.js"></script>
+    <script src="App_AngularJS/controllers/morceau/morceauController.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Mon R&eacute;pertoire</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#/home">Accueil |</a></li>
+            <li><a href="#/morceaux">R&eacute;pertoire dans l&acute;ordre des priorit&eacute;s |</a></li>
+            <li><a href="#/help">Aide</a></li>
+        </ul>
+    </nav>
+    <div class="separateur"></div>
+
+    <section id="content">
+            <div ng-view></div>
+    </section>
+
+    <hr />
+
+    <footer>
+        <p>&copy; Champo.com 2018</p>
+    </footer> 
+</body>
+</html>
