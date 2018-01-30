@@ -21,8 +21,11 @@ namespace MonRepertoireWebAPITests
             dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
             dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
             dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => listEntities.Add(s));
-            dbSet.Setup(m => m.Remove(It.IsAny<T>())).Callback<T>((entity) => listEntities.Remove(entity));
+            dbSet.Setup(p => p.Add(It.IsAny<T>())).Callback<T>((entity) => listEntities.Add(entity));
+            dbSet.Setup(p => p.Remove(It.IsAny<T>())).Callback<T>((entity) => listEntities.Remove(entity));
+            dbSet.Setup(m => m.Find(It.IsAny<object[]>())).Returns<object[]>(
+                ids => listEntities.Find(entity => ((int)typeof(T).GetProperty("Id").GetValue(entity)) == (int)ids[0]
+            ));
 
             return dbSet.Object;
         }

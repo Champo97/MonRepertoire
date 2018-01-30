@@ -23,11 +23,15 @@ namespace MonRepertoire.Controllers
 
         }
 
+        #region CRUD
+
         [HttpGet]
         public override IEnumerable<MorceauViewModel> GetAll()
         {
 
             var morceaux = repertoireContext.Morceaux.ToList();
+
+            TrierMorceaux(morceaux);
 
             var result = morceaux.ConvertAll<MorceauViewModel>(
                 new Converter<Morceau, MorceauViewModel>(ModelConvert)
@@ -86,6 +90,39 @@ namespace MonRepertoire.Controllers
             }
         }
 
+        #endregion
+
+        #region Tools
+        private void TrierMorceaux(List<Morceau> morceaux)
+        {
+            morceaux.Sort(CompareTo);
+        }
+
+        private int CompareTo(Morceau m1, Morceau m2)
+        {
+            var compareTo = 0;
+            var seancesMorceau1 = repertoireContext.Seances.Where(s => s.MorceauId == m1.Id);
+            var seancesMorceau2 = repertoireContext.Seances.Where(s => s.MorceauId == m2.Id);
+
+            if ((compareTo = seancesMorceau1.Count().CompareTo(seancesMorceau2.Count())) != 0)
+                return -compareTo;
+
+            var lastSeanceMorceau1 = seancesMorceau1.Where(s => s.DateDerniereRepetition
+                                                                == seancesMorceau1.Max(p => p.DateDerniereRepetition))
+                                                    .FirstOrDefault();
+            var lastSeanceMorceau2 = seancesMorceau2.Where(s => s.DateDerniereRepetition
+                                                                == seancesMorceau2.Max(p => p.DateDerniereRepetition))
+                                                    .FirstOrDefault();
+
+            var niveauCompetence1 = lastSeanceMorceau1 == null ? 1 : lastSeanceMorceau1.NiveauCompetence.Ordre;
+            var niveauCompetence2 = lastSeanceMorceau2 == null ? 1 : lastSeanceMorceau2.NiveauCompetence.Ordre;
+
+            if ((compareTo = niveauCompetence1.CompareTo(niveauCompetence2)) != 0)
+                return -compareTo;
+
+            return m1.NiveauComplexite.Ordre.CompareTo(m2.NiveauComplexite);
+        }
+
         public override void ViewModelToModel(MorceauViewModel morceauViewModel, Morceau morceau)
         {
             CopySimilarProperties(morceauViewModel, morceau);
@@ -105,5 +142,7 @@ namespace MonRepertoire.Controllers
                 morceauViewModel.Complexite = niveauComplexite.Libelle;
             }
         }
+
+        #endregion
     }
 }

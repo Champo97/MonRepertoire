@@ -20,21 +20,26 @@ namespace MonRepertoire.Controllers.Tests
 
         private static RepertoireContext MockRepertoireContext()
         {
-            var niveauComplexite = new NiveauComplexite { Id = 1, Libelle = "Facile", Ordre = 1 };
+            var niveauComplexite1 = new NiveauComplexite { Id = 1, Libelle = "Facile", Ordre = 1 };
+            var niveauComplexite2 = new NiveauComplexite { Id = 2, Libelle = "Moyen", Ordre = 2 };
 
-            var dbSetMorceaux = MockTools.GetDbSet(
-                new List<Morceau>
-                {
-                    new Morceau{ Id = 1, Titre = "morceau 1", Tonalite = "C", Grille = "D | E | G | A", NiveauComplexiteId = niveauComplexite.Id, NiveauComplexite = niveauComplexite }
-                    ,new Morceau{ Id = 2, Titre = "morceau 2", Tonalite = "G", Grille = "G | C | C | G", NiveauComplexiteId = niveauComplexite.Id, NiveauComplexite = niveauComplexite }
-                }
-            );
+            var niveauCompetence = new NiveauCompetence { Id = 1, Libelle = "Insufisant", Ordre = 1 };
 
-            var dbSetNiveauxComplexites = MockTools.GetDbSet( new List<NiveauComplexite> { niveauComplexite });
+            var morceau1 = new Morceau { Id = 1, Titre = "morceau 1", Tonalite = "C", Grille = "D | E | G | A", NiveauComplexiteId = niveauComplexite1.Id, NiveauComplexite = niveauComplexite1 };
+            var morceau2 = new Morceau { Id = 2, Titre = "morceau 2", Tonalite = "G", Grille = "G | C | C | G", NiveauComplexiteId = niveauComplexite2.Id, NiveauComplexite = niveauComplexite2 };
+
+            var seance = new Seance { Id = 1, MorceauId = 1, Morceau = morceau1, NiveauCompetenceId = niveauCompetence.Id, NiveauCompetence = niveauCompetence, DateDerniereRepetition = new DateTime(2017, 12, 12) };
+
+            var dbSetMorceaux = MockTools.GetDbSet(new List<Morceau> { morceau1, morceau2 });
+            var dbSetNiveauxComplexites = MockTools.GetDbSet( new List<NiveauComplexite> { niveauComplexite1, niveauComplexite2});
+            var dbSetNiveauxCompetences = MockTools.GetDbSet(new List<NiveauCompetence> { niveauCompetence });
+            var dbSetSeances = MockTools.GetDbSet<Seance>(new List<Seance> { seance });
 
             var mockRepertoireContext = new Mock<RepertoireContext>();
             mockRepertoireContext.Setup(c => c.Morceaux).Returns(dbSetMorceaux);
             mockRepertoireContext.Setup(c => c.NiveauxComplexites).Returns(dbSetNiveauxComplexites);
+            mockRepertoireContext.Setup(c => c.Seances).Returns(dbSetSeances);
+            mockRepertoireContext.Setup(c => c.NiveauxCompetences).Returns(dbSetNiveauxCompetences);
 
             return mockRepertoireContext.Object;
         }
@@ -104,7 +109,9 @@ namespace MonRepertoire.Controllers.Tests
             MorceauController morceauController = new MorceauController(repertoireContext);
             morceauController.DeleteOne(1);
 
-            Assert.IsTrue(repertoireContext.Morceaux.FirstOrDefault(m => m.Id == 1) == null);
+            var morceauSupprime = repertoireContext.Morceaux.Find(1);
+
+            Assert.IsTrue(morceauSupprime == null, "Le morceau 1 ne devrait plus exister.");
         }
     }
 }
